@@ -1,0 +1,355 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap');
+
+:root {
+  --parchment: #F5F0E8;
+  --parchment-dark: #EDE7D9;
+  --graphite: #3D3A38;
+  --graphite-light: #5A5754;
+  --pencil: #B8B2A8;
+  --pencil-light: #D4CFC8;
+  --vermillion: #C84B31;
+  --vermillion-dark: #A83B24;
+  --vermillion-light: #D4614A;
+  --paper-white: #FAF7F2;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--parchment);
+  color: var(--graphite);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Paper texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 1;
+}
+
+/* Fraunces serif utility */
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+/* Vermillion underline draw animation */
+@keyframes drawUnderline {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.underline-draw {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-draw::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: var(--vermillion);
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.underline-draw.drawn::after {
+  width: 100%;
+}
+
+/* Scroll animations */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+}
+
+.animate-on-scroll.visible {
+  animation: fadeSlideUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in.visible {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* Stagger delays */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.12s; }
+.stagger-3 { animation-delay: 0.19s; }
+.stagger-4 { animation-delay: 0.26s; }
+.stagger-5 { animation-delay: 0.33s; }
+.stagger-6 { animation-delay: 0.40s; }
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+  width: max-content;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Card expand modal */
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-enter {
+  animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Paper card texture */
+.paper-card {
+  background-color: var(--paper-white);
+  box-shadow:
+    0 1px 3px rgba(61, 58, 56, 0.08),
+    0 4px 16px rgba(61, 58, 56, 0.06),
+    inset 0 0 0 1px rgba(184, 178, 168, 0.3);
+  position: relative;
+}
+
+.paper-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.paper-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark paper card */
+.paper-card-dark {
+  background-color: var(--graphite);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* Vermillion pill button */
+.btn-vermillion {
+  background-color: var(--vermillion);
+  color: var(--parchment);
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.btn-vermillion:hover {
+  background-color: var(--vermillion-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(200, 75, 49, 0.35);
+}
+
+.btn-vermillion:active {
+  transform: translateY(0);
+}
+
+/* Graphite button */
+.btn-graphite {
+  background-color: var(--graphite);
+  color: var(--parchment);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-graphite:hover {
+  background-color: var(--graphite-light);
+  transform: translateY(-1px);
+}
+
+/* Masonry grid */
+.masonry-grid {
+  columns: 3;
+  column-gap: 1.25rem;
+}
+
+@media (max-width: 1024px) {
+  .masonry-grid {
+    columns: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .masonry-grid {
+    columns: 1;
+  }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.25rem;
+  display: block;
+}
+
+/* Card hover */
+.case-card {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.case-card:hover {
+  transform: translateY(-3px) rotate(0.3deg);
+  box-shadow:
+    0 8px 32px rgba(61, 58, 56, 0.12),
+    0 2px 8px rgba(61, 58, 56, 0.08),
+    inset 0 0 0 1px rgba(184, 178, 168, 0.4);
+}
+
+/* KPI display */
+.kpi-number {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  line-height: 0.9;
+  color: var(--vermillion);
+}
+
+/* Form inputs */
+.form-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--pencil);
+  padding: 0.75rem 0;
+  color: var(--parchment);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9375rem;
+  width: 100%;
+  transition: border-color 0.2s ease;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder {
+  color: var(--pencil);
+}
+
+.form-input:focus {
+  border-bottom-color: var(--vermillion);
+}
+
+.form-input option {
+  background-color: var(--graphite);
+  color: var(--parchment);
+}
+
+/* Fixed nav */
+.nav-fixed {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(245, 240, 232, 0.9);
+  border-bottom: 1px solid rgba(184, 178, 168, 0.3);
+}
+
+/* Overlay */
+.modal-overlay {
+  background-color: rgba(61, 58, 56, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--parchment);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--pencil);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--graphite-light);
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(200, 75, 49, 0.15);
+  color: var(--graphite);
+}
+
+/* ─── Kavya Portfolio ─────────────────────────────────────────────────────── */
+
+/* Hide default cursor on kavya root */
+.kavya-root {
+  cursor: none;
+}
+
+/* Hero noise texture */
+.kavya-hero-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.055'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Marquee infinite scroll */
+@keyframes kavya-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.kavya-marquee-track {
+  animation: kavya-marquee 28s linear infinite;
+  will-change: transform;
+}
+
+/* Kavya font — use existing Fraunces for display */
+.kavya-headline {
+  font-family: 'Fraunces', serif;
+}
