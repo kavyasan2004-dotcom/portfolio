@@ -61,13 +61,7 @@ export default function KavyaFooter() {
             href="mailto:kavyasan2004@gmail.com"
             className="font-sans text-[1rem] md:text-[1.1rem] text-[#f5f0e8]/60 hover:text-[#c8855a] transition-colors duration-300 tracking-wide">
 
-            kavyasan2004@gmail.com
-          </a>
-          <a
-            href="tel:+919037955605"
-            className="font-sans text-[1rem] md:text-[1.1rem] text-[#f5f0e8]/60 hover:text-[#c8855a] transition-colors duration-300 tracking-wide">
-
-            +91 9037955605
+            aboutkavya.santhosh@gmail.com
           </a>
           <a
             href="https://www.linkedin.com/in/kavyadashsanthosh"
